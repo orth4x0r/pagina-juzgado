@@ -1,5 +1,7 @@
 /* Add your custom styles here */
-
+.bg-transparent .bg-transparent-juzgado {
+  background-color: #fc7703;
+}
 
 /* Adds a bit of spacing to "Responsive Grid Row" blocks. */
 .crx-grid {
@@ -11,3 +13,6 @@
   padding-bottom: 0;
 }
 
+.bg-transparent .bg-transparent-juzgado {
+  background-color: #fc7703;
+}
