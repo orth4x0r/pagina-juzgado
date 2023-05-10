@@ -14,6 +14,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 from django.utils.translation import gettext_lazy as _
 
+DEBUG = os.getenv ("DEBUG", "false").lower() == "true"
+SECRET_KEY = os.getenv("SECRET_KEY")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.path.dirname(PROJECT_DIR)
 
