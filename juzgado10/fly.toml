@@ -1,0 +1,31 @@
+# fly.toml app configuration file generated for juzgado10site on 2023-06-15T18:11:11-03:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "juzgado10site"
+primary_region = "eze"
+console_command = "/code/manage.py shell"
+
+[deploy]
+#  release_command = "python manage.py migrate"
+
+[env]
+  PORT = "8000"
+  DATABASE_URL="sqlite:////data/sqlite.db"
+  DJANGO_SETTINGS_MODULE="juzgado10.settings.prod"
+
+[mounts]
+  source="juzgado10_data"
+  destination="/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[statics]]
+  guest_path = "/code/staticfiles"  # <-- Updated!
+  url_prefix = "/static"

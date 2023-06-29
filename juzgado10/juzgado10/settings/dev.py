@@ -1,10 +1,8 @@
 from .base import *  # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "(ee7q@jdkmvtg($&msz15tyq-9uv=8i4vag^wj+4h49+vv-fzr"
 
 ALLOWED_HOSTS = ["*"]
 

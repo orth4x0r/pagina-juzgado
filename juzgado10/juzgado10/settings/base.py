@@ -13,13 +13,28 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.utils.translation import gettext_lazy as _
+from pathlib import Path
+import environ  # <-- Updated!
 
-DEBUG = os.getenv ("DEBUG", "false").lower() == "true"
-SECRET_KEY = os.getenv("SECRET_KEY")
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+env = environ.Env(  # <-- Updated!
+    # set casting, default value
+    DEBUG=(bool, False),
+)
+
+
+# settings.py
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = PROJECT_DIR.parent
+print(BASE_DIR)
+# Take environment variables from .env file
+environ.Env.read_env(BASE_DIR / '.env')
+DEBUG = env('DEBUG')  # <-- Updated!
+SECRET_KEY = env('SECRET_KEY')
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'juzgado10site.fly.dev']  # <-- Updated!
+CSRF_TRUSTED_ORIGINS = ['https://juzgado10site.fly.dev']  # <-- Updated!
+
 PROJECT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-BASE_DIR = os.path.dirname(PROJECT_DIR)
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
@@ -58,6 +73,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "whitenoise.runserver_nostatic", # <-- Updated!
     "django.contrib.staticfiles",
     "django.contrib.sitemaps",
 ]
@@ -80,6 +96,9 @@ MIDDLEWARE = [
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
     # Fetch from cache. Must be LAST.
     "wagtailcache.cache.FetchFromCacheMiddleware",
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # <-- Updated!
+
 ]
 
 ROOT_URLCONF = "juzgado10.urls"
@@ -107,10 +126,8 @@ WSGI_APPLICATION = "juzgado10.wsgi.application"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-    }
+    # read os.environ['DATABASE_URL']
+    'default': env.db()  # <-- Updated!
 }
 
 
@@ -155,8 +172,9 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # <-- Updated!
 STATIC_URL = "/static/"
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'  # <-- Updated!
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"

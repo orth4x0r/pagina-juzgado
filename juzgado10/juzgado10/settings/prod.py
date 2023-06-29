@@ -1,13 +1,11 @@
 from .base import *  # noqa
-
+MEDIA_ROOT = "/data/media"
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "(ee7q@jdkmvtg($&msz15tyq-9uv=8i4vag^wj+4h49+vv-fzr"
 
 # Add your site's domain name(s) here.
-ALLOWED_HOSTS = ["localhost"]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.fly.dev']
 
 # To send email from the server, we recommend django_sendmail_backend
 # Or specify your own email backend such as an SMTP server.
