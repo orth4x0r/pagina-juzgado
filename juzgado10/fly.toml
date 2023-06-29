@@ -29,3 +29,7 @@ console_command = "/code/manage.py shell"
 [[statics]]
   guest_path = "/code/staticfiles"  # <-- Updated!
   url_prefix = "/static"
+
+[[statics]]
+  guest_path = "/data/media"
+  url_prefix = "/media"
